@@ -940,6 +940,7 @@ details[open] .summary::after {
 .search-icon-container {
     position: relative;
     flex-shrink: 0;
+    cursor: pointer;
 }
 
 /* gives a wider hit area for the 3 people that will notice the animation : ) */

@@ -110,18 +110,20 @@ func (w *Widgets) UnmarshalYAML(node *yaml.Node) error {
 	return nil
 }
 
-type Widget interface {
-	Initialize() error
-	RequiresUpdate(*time.Time) bool
-	SetProviders(*Providers)
-	Update(context.Context)
-	Render() template.HTML
-	GetType() string
-	GetID() uint64
-	SetID(uint64)
-	HandleRequest(w http.ResponseWriter, r *http.Request)
-	SetHideHeader(bool)
-}
+type (
+	Widget interface {
+		Initialize() error
+		RequiresUpdate(*time.Time) bool
+		SetProviders(*Providers)
+		Update(context.Context)
+		Render() template.HTML
+		GetType() string
+		GetID() uint64
+		SetID(uint64)
+		HandleRequest(w http.ResponseWriter, r *http.Request)
+		SetHideHeader(bool)
+	}
+)
 
 type cacheType int
 

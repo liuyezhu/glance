@@ -1,5 +1,5 @@
-import { setupPopovers } from './popover.js';
-import { throttledDebounce, isElementVisible } from './utils.js';
+import {setupPopovers} from './popover.js';
+import {isElementVisible, throttledDebounce} from './utils.js';
 
 async function fetchPageContent(pageData) {
     // TODO: handle non 200 status codes/time outs
@@ -73,10 +73,8 @@ function relativeTimeSince(timestamp) {
     return Math.floor(delta / yearInSeconds) + "y";
 }
 
-function updateRelativeTimeForElements(elements)
-{
-    for (let i = 0; i < elements.length; i++)
-    {
+function updateRelativeTimeForElements(elements) {
+    for (let i = 0; i < elements.length; i++) {
         const element = elements[i];
         const timestamp = element.dataset.dynamicRelativeTime;
 
@@ -89,6 +87,111 @@ function updateRelativeTimeForElements(elements)
 
 function setupSearchBoxes() {
     const searchWidgets = document.getElementsByClassName("search");
+    const searchEngines = document.getElementById('search-engines');
+    const searchIcon = document.getElementById('search-icon');
+    const searchInput = document.getElementById('search-input');
+    // 获取图片元素
+    const updateIconImg = document.querySelector('#search-icon img');
+
+
+    // 定义搜索引擎列表
+    let engines = [
+    ];
+
+    // if (searchWidgets.length > 0) {
+    //     const searchUrlTemplate = localStorage.getItem("selectedSearchEngine")
+    //     const bangs = searchWidgets[0].querySelectorAll(".search-bangs > input");
+    //     for (let j = 0; j < bangs.length; j++) {
+    //         const bang = bangs[j];
+    //         if (bang.dataset.url === searchUrlTemplate) {
+    //             updateIconImg.src = bang.dataset.icon
+    //         }
+    //         engines.push({name: bang.dataset.title, url: bang.dataset.url, icon: bang.dataset.icon})
+    //     }
+    // }
+
+
+    let isMenuVisible = false; // 用于跟踪菜单是否可见
+    // 点击G图标显示菜单
+    searchIcon.addEventListener('click', () => {
+        console.log(isMenuVisible)
+        if (isMenuVisible) {
+            isMenuVisible = false;
+            deleteSearchEngineItem()
+            return;
+        }
+
+        isMenuVisible = true;
+        searchEngines.style.display = 'flex'
+    });
+
+
+    // 获取所有具有search-engine-item类的元素
+    let items = document.querySelectorAll('.search-engine-item');
+
+    // 为每个元素添加点击事件监听器
+    items.forEach(function(item) {
+        item.addEventListener('click', function() {
+            isMenuVisible = true;
+            localStorage.setItem('selectedSearchEngine', item.dataset.url)
+            updateIconImg.src = item.dataset.icon;
+            // 聚焦到输入框
+            searchInput.focus();
+            deleteSearchEngineItem()
+        });
+    });
+
+    function deleteSearchEngineItem() {
+        // searchEngines.innerHTML = '';
+        searchEngines.style.display = 'none';
+    }
+
+    // 点击其他地方隐藏菜单
+    document.addEventListener('click', (event) => {
+        if(searchEngines.contains(event.target)){
+            return
+        }
+        if (!searchIcon.contains(event.target)) {
+            isMenuVisible = false;
+            deleteSearchEngineItem()
+            searchInput.focus();
+        }
+    });
+
+
+
+    // let container = document.querySelector('.search-engines');
+    // function addSearchEngineItem() {
+    //     isMenuVisible = true;
+    //     // 渲染搜索引擎选项
+    //     engines.forEach(engine => {
+    //         let newItem = document.createElement('div');
+    //         newItem.classList.add('search-engine-item');
+    //         let img = document.createElement('img');
+    //         img.src = engine.icon; // 假设这是第二张图片的路径
+    //         img.alt = engine.name;
+    //         // 将图片和文本添加到新的项中
+    //         newItem.appendChild(img);
+    //         // 将新的项添加到容器中
+    //
+    //         newItem.addEventListener('click', () => {
+    //             // 设置当前选中的搜索引擎
+    //             localStorage.setItem('selectedSearchEngine', engine.url)
+    //             updateIconImg.src = engine.icon;
+    //             isMenuVisible = false;
+    //             // 聚焦到输入框
+    //             searchInput.focus();
+    //             deleteSearchEngineItem()
+    //
+    //         });
+    //         container.appendChild(newItem);
+    //     });
+    // }
+
+
+
+
+
 
     if (searchWidgets.length == 0) {
         return;
@@ -111,23 +214,28 @@ function setupSearchBoxes() {
         }
 
         const handleKeyDown = (event) => {
-            if (event.key == "Escape") {
+            if (event.key === "Escape") {
                 inputElement.blur();
                 return;
             }
 
-            if (event.key == "Enter") {
+            if (event.key === "Enter") {
                 const input = inputElement.value.trim();
                 let query;
                 let searchUrlTemplate;
 
                 if (currentBang != null) {
+                    // 判断是否有选中的搜索引擎
                     query = input.slice(currentBang.dataset.shortcut.length + 1);
                     searchUrlTemplate = currentBang.dataset.url;
                 } else {
                     query = input;
-                    searchUrlTemplate = defaultSearchUrl;
+                    searchUrlTemplate = localStorage.getItem("selectedSearchEngine")
+                    if (searchUrlTemplate == null || searchUrlTemplate === "") {
+                        searchUrlTemplate = defaultSearchUrl;
+                    }
                 }
+
                 if (query.length == 0 && currentBang == null) {
                     return;
                 }
@@ -495,7 +603,7 @@ function timeInZone(now, zone) {
     let timeInZone;
 
     try {
-        timeInZone = new Date(now.toLocaleString('en-US', { timeZone: zone }));
+        timeInZone = new Date(now.toLocaleString('en-US', {timeZone: zone}));
     } catch (e) {
         // TODO: indicate to the user that this is an invalid timezone
         console.error(e);
@@ -504,7 +612,7 @@ function timeInZone(now, zone) {
 
     const diffInHours = Math.round((timeInZone.getTime() - now.getTime()) / 1000 / 60 / 60);
 
-    return { time: timeInZone, diffInHours: diffInHours };
+    return {time: timeInZone, diffInHours: diffInHours};
 }
 
 function setupClocks() {
@@ -547,7 +655,7 @@ function setupClocks() {
             );
 
             updateCallbacks.push((now) => {
-                const { time, diffInHours } = timeInZone(now, timeZoneContainer.dataset.timeInZone);
+                const {time, diffInHours} = timeInZone(now, timeZoneContainer.dataset.timeInZone);
                 setZoneTime(time);
                 diffElement.textContent = (diffInHours <= 0 ? diffInHours : '+' + diffInHours) + 'h';
             });

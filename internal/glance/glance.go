@@ -34,6 +34,7 @@ type Theme struct {
 	PrimaryColor             *widget.HSLColorField `yaml:"primary-color"`
 	PositiveColor            *widget.HSLColorField `yaml:"positive-color"`
 	NegativeColor            *widget.HSLColorField `yaml:"negative-color"`
+	Background               string                `yaml:"background"`
 	Light                    bool                  `yaml:"light"`
 	ContrastMultiplier       float32               `yaml:"contrast-multiplier"`
 	TextSaturationMultiplier float32               `yaml:"text-saturation-multiplier"`
@@ -117,7 +118,9 @@ func (a *Application) TransformUserDefinedAssetPath(path string) string {
 		return a.Config.Server.BaseURL + path
 	}
 
-	return path
+	return a.Config.Server.BaseURL + "/static/" + a.Config.Server.AssetsHash + path
+
+	//return path
 }
 
 func NewApplication(config *Config) (*Application, error) {
@@ -174,7 +177,6 @@ func NewApplication(config *Config) (*Application, error) {
 
 func (a *Application) HandlePageRequest(w http.ResponseWriter, r *http.Request) {
 	page, exists := a.slugToPage[r.PathValue("page")]
-
 	if !exists {
 		a.HandleNotFound(w, r)
 		return
@@ -233,7 +235,6 @@ func (a *Application) HandleNotFound(w http.ResponseWriter, r *http.Request) {
 
 func FileServerWithCache(fs http.FileSystem, cacheDuration time.Duration) http.Handler {
 	server := http.FileServer(fs)
-
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// TODO: fix always setting cache control even if the file doesn't exist
 		w.Header().Set("Cache-Control", fmt.Sprintf("public, max-age=%d", int(cacheDuration.Seconds())))

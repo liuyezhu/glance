@@ -1,24 +1,44 @@
 {{ template "widget-base.html" . }}
 
 {{ define "widget-content-classes" }}widget-content-frameless{{ end }}
-
 {{ define "widget-content" }}
-<div class="search widget-content-frame padding-inline-widget flex gap-15 items-center" data-default-search-url="{{ .SearchEngine }}" data-new-tab="{{ .NewTab }}">
-    <div class="search-bangs">
+<div class="search widget-content-frame padding-inline-widget flex gap-30 items-center"
+     data-default-search-url="{{ .SearchEngine }}" data-new-tab="{{ .NewTab }}" style="display: flex; ">
+    <div class="search-bangs" style="display: none">
         {{ range .Bangs }}
-        <input type="hidden" data-shortcut="{{ .Shortcut }}" data-title="{{ .Title }}" data-url="{{ .URL }}">
+        <input type="hidden" data-shortcut="{{ .Shortcut }}" data-title="{{ .Title }}" data-url="{{ .URL }}" data-icon="{{.Icon}}">
         {{ end }}
     </div>
 
-    <div class="search-icon-container">
-        <svg class="search-icon" stroke="var(--color-text-subdue)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-        </svg>
+    <div class="search-icon-container" id="search-icon">
+        <img loading="eager" src="https://666666.dev/assets/google-c8534e94.svg"
+             data-image-src="https://666666.dev/assets/google-c8534e94.svg">
+
+        <!--        <svg class="search-icon" stroke="var(&#45;&#45;color-text-subdue)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5">-->
+        <!--            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />-->
+        <!--        </svg>-->
     </div>
 
-    <input class="search-input" type="text" placeholder="Type here to search…" autocomplete="off"{{ if .Autofocus }} autofocus{{ end }}>
-
+    <input class="search-input" id="search-input" type="text" placeholder="Type here to search…" autocomplete="off"
+           {{
+           if .Autofocus }}
+           autofocus{{ end }}>
     <div class="search-bang"></div>
-    <kbd class="hide-on-mobile" title="Press [S] to focus the search input">S</kbd>
+
+
+    <div class="search-icon-container" id="search-action">
+        <img loading="eager" src="{{.SearchIcon}}"  data-image-src="https://666666.dev/assets/google-c8534e94.svg">
+    </div>
+<!--    <kbd class="hide-on-mobile" title="Press [S] to focus the search input">S</kbd>-->
 </div>
-{{ end }}
+
+<div class="search-engines" id="search-engines">
+    {{ range.Bangs }}
+    <div class="search-engine-item" data-title="{{.Title}}" data-shortcut="{{ .Shortcut }}" data-url="{{ .URL }}" data-icon="{{.Icon}}">
+        <img loading="eager" src="{{ .Icon }}" alt="{{.Title}}" class="search-engine-icon">
+    </div>
+    {{ end }}
+
+</div>
+
+{{end}}

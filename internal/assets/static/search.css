@@ -1,0 +1,90 @@
+body {
+    background: url("https://666666.dev/uploads/2024/4/24/b1de14ec4fd4b0b5a6a06f16d17e3468.webp") center center / cover no-repeat;
+}
+
+
+ .search {
+     background: rgba(42, 42, 42, 0.32);
+     border-radius: 20px;
+     box-shadow: 0px 0px 0px 0px hsl(var(--bghs))
+ }
+
+/*.search:focus {*/
+/*    border: 2px solid #007BFF; !* 聚焦时边框颜色变为蓝色 *!*/
+/*    outline: none; !* 可选：移除浏览器默认的聚焦轮廓线 *!*/
+/*}*/
+
+.search:focus-within {
+    border: 2px solid green;
+}
+
+
+.search-icon-container {
+    margin-right: 5px;
+
+}
+
+.search-icon-container img,svg{
+    height: 20px;
+    max-width: 100%; /* 确保图片不会超出其父元素的宽度 */
+    display: block;
+    vertical-align: middle;
+}
+
+.search-engines {
+    margin-top: 10px;
+    /*display: grid;*/
+    display: none;
+    position: relative;
+    background: rgba(42, 42, 42, 0.42);
+    /*grid-template-columns: repeat(10, 3fr); !* 默认三列 *!*/
+    gap: 10px; /* 子项之间的间隔 */
+    padding: 10px; /* 容器内边距 */
+    flex-wrap: wrap; /** 允许子项换行 *!*/
+    /*flex-direction:row;*/
+    /*border: 1px solid; !* 可选：给项添加边框以更清晰地看到它们 *!*/
+    border-radius: .75rem;
+    overflow: auto; /* 或者使用 overflow: hidden; 如果你不希望出现滚动条 */
+}
+
+.search-history {
+    position: relative;
+    border: 1px solid ;
+    height: 200px;
+}
+
+
+/*@media (max-width: 50px) {*/
+/*    .search-engines {*/
+/*        grid-template-columns: repeat(1, 3fr);*/
+/*    }*/
+/*}*/
+
+/*@media (max-width: 250px) {*/
+/*    .search-engines {*/
+/*        grid-template-columns:repeat(3, 1fr); !* 屏幕宽度小于50px时，变为一列 *!*/
+/*    }*/
+/*}*/
+
+/*@media (max-width: 650px) {*/
+/*    .search-engines {*/
+/*        grid-template-columns:repeat(10, 3fr); !* 屏幕宽度小于50px时，变为一列 *!*/
+/*    }*/
+/*}*/
+.page-center-vertically .page {
+    display: inline;
+}
+
+
+.search-engine-item {
+    width: 50px;
+    background-color: ghostwhite;
+    border-radius: .75rem;
+    padding: 10px;
+    cursor: pointer;
+}
+
+/*.widget-content:not(.widget-content-frameless), .widget-content-frame {*/
+/*    border: 3px red;*/
+/*    !*border-color: whitesmoke;*!*/
+/*}*/
