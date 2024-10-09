@@ -1,79 +1,78 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Insert Div on Click</title>
-    <style>
-        .container {
-            position: relative;
-            width: 100%;
-            /* 去掉固定高度，让容器自适应内容 */
-            /* height: 300px; */
-            border: 1px solid #ccc; /* 可视化边框 */
-            padding-bottom: 20px; /* 可选，为新增元素预留空间（如果需要的话） */
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flexbox Example with Button Add</title>
+<style>
+    :root {
+        --widget-gap: 20px;
+    }
 
-        .div1, .div3 {
-            width: 100%;
-            height: 100px;
-            background-color: lightblue;
-            margin-bottom: 10px; /* 可选，元素之间的间距 */
-        }
+    .page-center-vertically {
 
-        .inserted-div {
-            position: absolute;
-            /* 根据需要调整top值，这里假设插入在.div1之后 */
-            top: 120px; /* .div1的高度 + 可能的底部边距 */
-            left: 0;
-            width: 100%;
-            height: 50px;
-            background-color: lightcoral;
-            /* 如果需要，可以添加z-index来控制层叠顺序 */
-        }
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100%;
+    }
 
-        /* 插入按钮的样式 */
-        #insertButton {
-            margin-top: 10px; /* 与上方内容保持间距 */
-        }
-    </style>
+    .page-center-vertically .page {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-height: 80vh; /* 限制.page的最大高度以便更容易看到滚动条 */
+        overflow-y: auto;
+        padding: var(--widget-gap);
+        box-sizing: border-box;
+    }
+
+    .page-item {
+        margin-bottom: var(--widget-gap);
+        padding: 10px;
+        border: 1px solid #ccc;
+    }
+
+    /* 按钮样式 */
+    .add-button {
+        margin-top: var(--widget-gap);
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+</style>
 </head>
 <body>
 
-<div class="container">
-    <div class="div1">第一个div块</div>
-    <!-- 新div块将通过点击按钮插入 -->
-    <div class="div3">第二个div块</div>
-    <!-- 插入按钮 -->
-    <button id="insertButton">插入新div块</button>
+<div class="page-center-vertically">
+    <div class="page">
+        <!-- 初始的子div块 -->
+        <div class="page-item">Item 1</div>
+        <div class="page-item">Item 2</div>
+    </div>
+    <!-- 添加按钮 -->
+    <button class="add-button" onclick="addPageItem()">Add Item</button>
 </div>
 
 <script>
-    // 等待DOM加载完成
-    document.addEventListener('DOMContentLoaded', function() {
-        // 获取插入按钮
-        var insertButton = document.getElementById('insertButton');
+function addPageItem() {
+    const page = document.querySelector('.page');
+    const newItem = document.createElement('div');
+    newItem.className = 'page-item';
+    // 这里可以动态设置文本内容，比如使用当前的项目数量
+    newItem.textContent = `Item ${page.querySelectorAll('.page-item').length + 1}`;
+    page.appendChild(newItem);
 
-        // 为按钮添加点击事件监听器
-        insertButton.addEventListener('click', function() {
-            // 创建新的div元素
-            var newDiv = document.createElement('div');
-            // 设置类名（用于应用CSS样式）
-            newDiv.className = 'inserted-div';
-
-            // 找到容器元素
-            var container = document.querySelector('.container');
-
-            // 注意：由于我们使用了绝对定位，新div的位置由CSS决定，而不是插入顺序
-            // 但为了保持DOM的清晰，我们可以将其添加到.div3之前（或其他合适的位置）
-            // 这里我们选择将其添加到容器的末尾，然后通过CSS定位到正确的位置
-            container.appendChild(newDiv);
-
-            // 如果需要，可以在这里添加更多的逻辑，比如更新容器的滚动位置等
-
-            // 注意：每次点击都会插入一个新的div，如果你只想插入一个，请添加适当的逻辑来控制
-        });
-    });
+    // 可选：如果你希望滚动到最新添加的项目，可以使用以下代码
+    // 注意：这可能在某些情况下需要稍微的延迟来确保DOM已更新
+    // setTimeout(() => {
+    //     page.scrollTop = page.scrollHeight;
+    // }, 0);
+}
 </script>
 
 </body>

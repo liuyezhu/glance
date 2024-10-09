@@ -87,82 +87,9 @@ function updateRelativeTimeForElements(elements) {
 
 function setupSearchBoxes() {
     const searchWidgets = document.getElementsByClassName("search");
-    const searchEngines = document.getElementById('search-engines');
-    const searchIcon = document.getElementById('search-icon');
-    const searchInput = document.getElementById('search-input');
-    // 获取图片元素
-    const updateIconImg = document.querySelector('#search-icon img');
-
-
-    // 定义搜索引擎列表
-    let engines = [
-    ];
-
-    // if (searchWidgets.length > 0) {
-    //     const searchUrlTemplate = localStorage.getItem("selectedSearchEngine")
-    //     const bangs = searchWidgets[0].querySelectorAll(".search-bangs > input");
-    //     for (let j = 0; j < bangs.length; j++) {
-    //         const bang = bangs[j];
-    //         if (bang.dataset.url === searchUrlTemplate) {
-    //             updateIconImg.src = bang.dataset.icon
-    //         }
-    //         engines.push({name: bang.dataset.title, url: bang.dataset.url, icon: bang.dataset.icon})
-    //     }
-    // }
-
-
-    let isMenuVisible = false; // 用于跟踪菜单是否可见
-    // 点击G图标显示菜单
-    searchIcon.addEventListener('click', () => {
-        console.log(isMenuVisible)
-        if (isMenuVisible) {
-            isMenuVisible = false;
-            deleteSearchEngineItem()
-            return;
-        }
-
-        isMenuVisible = true;
-        searchEngines.style.display = 'flex'
-    });
-
-
-    // 获取所有具有search-engine-item类的元素
-    let items = document.querySelectorAll('.search-engine-item');
-
-    // 为每个元素添加点击事件监听器
-    items.forEach(function(item) {
-        item.addEventListener('click', function() {
-            isMenuVisible = true;
-            localStorage.setItem('selectedSearchEngine', item.dataset.url)
-            updateIconImg.src = item.dataset.icon;
-            // 聚焦到输入框
-            searchInput.focus();
-            deleteSearchEngineItem()
-        });
-    });
-
-    function deleteSearchEngineItem() {
-        // searchEngines.innerHTML = '';
-        searchEngines.style.display = 'none';
-    }
-
-    // 点击其他地方隐藏菜单
-    document.addEventListener('click', (event) => {
-        if(searchEngines.contains(event.target)){
-            return
-        }
-        if (!searchIcon.contains(event.target)) {
-            isMenuVisible = false;
-            deleteSearchEngineItem()
-            searchInput.focus();
-        }
-    });
-
-
-
     // let container = document.querySelector('.search-engines');
     // function addSearchEngineItem() {
-    //     isMenuVisible = true;
+    //     isSearchEnginesMenu = true;
     //     // 渲染搜索引擎选项
     //     engines.forEach(engine => {
     //         let newItem = document.createElement('div');
@@ -178,7 +105,7 @@ function setupSearchBoxes() {
     //             // 设置当前选中的搜索引擎
     //             localStorage.setItem('selectedSearchEngine', engine.url)
     //             updateIconImg.src = engine.icon;
-    //             isMenuVisible = false;
+    //             isSearchEnginesMenu = false;
     //             // 聚焦到输入框
     //             searchInput.focus();
     //             deleteSearchEngineItem()
@@ -188,15 +115,108 @@ function setupSearchBoxes() {
     //     });
     // }
 
-
-
-
-
-
-    if (searchWidgets.length == 0) {
+    // 当没有search组件的时候
+    if (searchWidgets.length === 0) {
         return;
     }
 
+    const searchEngines = document.getElementById('search-engines');
+    const searchIcon = document.getElementById('search-icon');
+    const searchAction = document.getElementById('search-action');
+    const searchInput = document.getElementById('search-input');
+    const searchHistory = document.getElementById('search-history');
+    // 获取图片元素
+    const updateIconImg = document.querySelector('#search-icon img');
+
+    // 定义搜索引擎列表
+    // let engines = [
+    // ];
+
+    // if (searchWidgets.length > 0) {
+    //     const searchUrlTemplate = localStorage.getItem("selectedSearchEngine")
+    //     const bangs = searchWidgets[0].querySelectorAll(".search-bangs > input");
+    //     for (let j = 0; j < bangs.length; j++) {
+    //         const bang = bangs[j];
+    //         if (bang.dataset.url === searchUrlTemplate) {
+    //             updateIconImg.src = bang.dataset.icon
+    //         }
+    //         engines.push({name: bang.dataset.title, url: bang.dataset.url, icon: bang.dataset.icon})
+    //     }
+    // }
+
+
+    let isSearchEnginesMenu = false; // 用于跟踪菜单是否可见
+    // 点击G图标显示菜单
+    searchIcon.addEventListener('click', () => {
+        if (isSearchEnginesMenu) {
+            isSearchEnginesMenu = false;
+            deleteSearchEngineItem()
+            return;
+        }
+
+        isSearchEnginesMenu = true;
+        searchEngines.style.display = 'flex'
+    });
+
+    searchAction.addEventListener('click', () => {
+        let inputElement = document.querySelector('#search-input');
+        let input = inputElement.value.trim();
+        let searchUrlTemplate;
+        let  query = input;
+        searchUrlTemplate = localStorage.getItem("selectedSearchEngine")
+        const url = searchUrlTemplate.replace("!QUERY!", encodeURIComponent(query));
+        window.open(url, '_blank').focus();
+    });
+
+
+    // 获取所有具有search-engine-item类的元素
+    let items = document.querySelectorAll('.search-engine-item');
+
+    // 为每个元素添加点击事件监听器
+    items.forEach(function(item) {
+        item.addEventListener('click', function() {
+            isSearchEnginesMenu = true;
+            localStorage.setItem('selectedSearchEngine', item.dataset.url)
+            localStorage.setItem('SelectTitle', item.dataset.title)
+            updateIconImg.src = item.dataset.icon;
+            // 聚焦到输入框
+            searchInput.focus();
+            deleteSearchEngineItem()
+        });
+    });
+
+    items.forEach(function (item) {
+        // 获取历史选择的搜索引擎
+        let searchTitle = localStorage.getItem("SelectTitle")
+        if (searchTitle !== "" && searchTitle === item.dataset.title) {
+            item.dispatchEvent(new Event('click'))
+            isSearchEnginesMenu = false;
+            console.log('isSearchEnginesMenu', isSearchEnginesMenu)
+
+        }
+    });
+
+    function deleteSearchEngineItem() {
+        searchEngines.style.display = 'none';
+    }
+
+    // 点击其他地方隐藏菜单
+    document.addEventListener('click', (event) => {
+        document.body.classList.add('click-animated');
+
+        // if(searchEngines.contains(event.target)){
+        //     return
+        // }
+        //
+        // if (!searchIcon.contains(event.target)) {
+        //     isSearchEnginesMenu = false;
+        //     deleteSearchEngineItem()
+        //     searchInput.focus();
+        // }
+
+    });
+
+    // 实际执行一次
     for (let i = 0; i < searchWidgets.length; i++) {
         const widget = searchWidgets[i];
         const defaultSearchUrl = widget.dataset.defaultSearchUrl;
@@ -273,11 +293,33 @@ function setupSearchBoxes() {
             changeCurrentBang(null);
         };
 
+
         inputElement.addEventListener("focus", () => {
+            const displayStyle = window.getComputedStyle(searchEngines).display;
+            if (displayStyle !== "none") {
+                searchEngines.style.display = "none";
+            }
+            console.log('focus')
+
             document.addEventListener("keydown", handleKeyDown);
             document.addEventListener("input", handleInput);
         });
+
+        inputElement.addEventListener('click', function (event) {
+            console.log('click')
+
+            searchHistory.style.display = "grid";
+            widget.style.borderRadius = "20px 20px 0px 0px";
+            document.querySelector('.search-br').style.display = "block";
+        });
+
         inputElement.addEventListener("blur", () => {
+            console.log('blur')
+            searchEngines.style.display = "none";
+            searchHistory.style.display = "none";
+            document.querySelector('.search-br').style.display = "none";
+            widget.style.borderRadius  = "20px";
+            isSearchEnginesMenu = false;
             document.removeEventListener("keydown", handleKeyDown);
             document.removeEventListener("input", handleInput);
         });
@@ -294,6 +336,8 @@ function setupSearchBoxes() {
             requestAnimationFrame(() => inputElement.focus());
         });
     }
+
+
 }
 
 function setupDynamicRelativeTime() {

@@ -1,10 +1,11 @@
 package widget
 
 import (
-	"context"
 	"fmt"
 	"github.com/glanceapp/glance/internal/assets"
 	"html/template"
+	"net/url"
+	"reflect"
 	"strings"
 )
 
@@ -22,7 +23,7 @@ type Search struct {
 	Bangs        []SearchBang  `yaml:"bangs"`
 	NewTab       bool          `yaml:"new-tab"`
 	Autofocus    bool          `yaml:"autofocus"`
-	SearchIcon   string
+	SearchIcon   string        `yaml:"search-icon"`
 }
 
 func convertSearchUrl(url string) string {
@@ -60,19 +61,55 @@ func (widget *Search) Initialize() error {
 		widget.Bangs[i].URL = convertSearchUrl(widget.Bangs[i].URL)
 	}
 
+	widget.JoinUrl()
+
 	widget.cachedHTML = widget.render(widget, assets.SearchTemplate)
 	return nil
 }
 
-func (widget *Search) Update(ctx context.Context) {
-	//searchIcon := widget.Providers.AssetResolver("icons/" + "search1" + ".svg")
-	//widget.Providers =
-	//widget.cachedHTML = widget.render(widget, assets.SearchTemplate)
+func (widget *Search) Render() template.HTML {
+	widget.cachedHTML = widget.render(widget, assets.SearchTemplate)
+	return widget.cachedHTML
 }
 
-func (widget *Search) Render() template.HTML {
-	widget.SearchIcon = widget.Providers.AssetResolver("icons/" + "search1" + ".svg")
-	widget.cachedHTML = widget.render(widget, assets.SearchTemplate)
+func (widget *Search) JoinUrl() {
 
-	return widget.cachedHTML
+	if !isInterfaceNotNilAndTypeNotNil(widget.Providers) {
+		return
+	}
+
+	if widget.SearchIcon != "" || !isValidHTTPorHTTPSURL(widget.SearchIcon) {
+		widget.SearchIcon = widget.Providers.AssetResolver(widget.SearchIcon)
+	}
+
+	for i := range widget.Bangs {
+		if isValidHTTPorHTTPSURL(widget.Bangs[i].Icon) {
+			continue
+		}
+
+		widget.Bangs[i].Icon = widget.Providers.AssetResolver(widget.Bangs[i].Icon)
+	}
+}
+
+// isInterfaceNotNilAndTypeNotNil 检查接口值是否不为nil，且其底层类型也不为nil
+func isInterfaceNotNilAndTypeNotNil(i interface{}) bool {
+	if i == nil {
+		return false
+	}
+
+	value := reflect.ValueOf(i)
+	if value.Kind() == reflect.Ptr {
+		return !value.IsNil()
+	}
+
+	return true
+}
+
+func isValidHTTPorHTTPSURL(s string) bool {
+	parsedURL, err := url.Parse(s)
+	if err != nil {
+		return false
+	}
+
+	return parsedURL.Scheme == "http" || parsedURL.Scheme == "https"
 }

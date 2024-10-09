@@ -74,7 +74,9 @@ type Page struct {
 	Width                 string   `yaml:"width"`
 	ShowMobileHeader      bool     `yaml:"show-mobile-header"`
 	HideDesktopNavigation bool     `yaml:"hide-desktop-navigation"`
+	HideMobileNavigation  bool     `yaml:"hide-mobile-navigation"`
 	CenterVertically      bool     `yaml:"center-vertically"`
+	CustomCssFile         string   `yaml:"custom-css-file"`
 	Columns               []Column `yaml:"columns"`
 	mu                    sync.Mutex
 }
@@ -153,8 +155,13 @@ func NewApplication(config *Config) (*Application, error) {
 			for w := range config.Pages[p].Columns[c].Widgets {
 				widget := config.Pages[p].Columns[c].Widgets[w]
 				app.widgetByID[widget.GetID()] = widget
-
 				widget.SetProviders(providers)
+
+				if err := config.Pages[p].Columns[c].Widgets[w].Initialize(); err != nil {
+					return nil, err
+				}
+
+				//widget.Initialize()
 			}
 		}
 	}
@@ -177,6 +184,7 @@ func NewApplication(config *Config) (*Application, error) {
 
 func (a *Application) HandlePageRequest(w http.ResponseWriter, r *http.Request) {
 	page, exists := a.slugToPage[r.PathValue("page")]
+	fmt.Println(r.PathValue("page"))
 	if !exists {
 		a.HandleNotFound(w, r)
 		return

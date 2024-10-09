@@ -744,6 +744,8 @@ details[open] .summary::after {
     padding: var(--widget-content-padding);
 }
 
+
+
 .widget-content:not(.widget-content-frameless), .widget-content-frame {
     background: var(--color-widget-background);
     border-radius: var(--border-radius);
@@ -969,13 +971,13 @@ details[open] .summary::after {
     position: relative;
 }
 
-.search:hover {
-    border-color: var(--color-text-subdue);
-}
+/*.search:hover {*/
+/*    border-color: var(--color-text-subdue);*/
+/*}*/
 
-.search:focus-within {
-    border-color: var(--color-primary);
-}
+/*.search:focus-within {*/
+/*    border-color: var(--color-primary);*/
+/*}*/
 
 .search-input {
     border: 0;

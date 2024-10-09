@@ -20,6 +20,10 @@
 {{ end }}
 {{ end }}
 
+{{ if ne "" .Page.CustomCssFile }}
+<link rel="stylesheet" href="{{.App.AssetPath .Page.CustomCssFile}}?v={{ .App.Config.Server.StartedAt.Unix }}">
+{{end}}
+
 {{ define "navigation-links" }}
 {{ range .App.Config.Pages }}
 <a href="{{ $.App.Config.Server.BaseURL }}/{{ .Slug }}" class="nav-item{{ if eq .Slug $.Page.Slug }} nav-item-current{{ end }}">{{ .Title }}</a>
@@ -40,7 +44,8 @@
     </div>
     {{ end }}
 
-    <div class="mobile-navigation">
+<!--    {{if not .Page.HideMobileNavigation}}display:block {{else}}display:none{{end}}-->
+    <div class="mobile-navigation" style="">
         <div class="mobile-navigation-icons">
             <a class="mobile-navigation-label" href="#top">↑</a>
             {{ range $i, $column := .Page.Columns }}

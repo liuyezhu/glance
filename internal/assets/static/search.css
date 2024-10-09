@@ -6,17 +6,37 @@ body {
  .search {
      background: rgba(42, 42, 42, 0.32);
      border-radius: 20px;
-     box-shadow: 0px 0px 0px 0px hsl(var(--bghs))
+     box-shadow: 0px 0px 0px 0px hsl(var(--bghs));
+
+     /*border: 2px solid rgb(255, 255, 255);*/
+     transition: box-shadow 0.5s, backdrop-filter 0.5s, -webkit-backdrop-filter 0.5s;
+     padding: 2px 10px;
+     backdrop-filter: blur(2px);
  }
+
+.widget-header {
+    padding: 0 calc(var(--widget-content-horizontal-padding) + 1px);
+    font-size: var(--font-size-h4);
+    margin-bottom: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+
+
+.search:focus-within {
+}
+
 
 /*.search:focus {*/
 /*    border: 2px solid #007BFF; !* 聚焦时边框颜色变为蓝色 *!*/
 /*    outline: none; !* 可选：移除浏览器默认的聚焦轮廓线 *!*/
 /*}*/
 
-.search:focus-within {
-    border: 2px solid green;
-}
+/*.search:focus-within {*/
+/*    border: 2px solid green;*/
+/*}*/
 
 
 .search-icon-container {
@@ -31,6 +51,16 @@ body {
     vertical-align: middle;
 }
 
+/*#search-history {*/
+/*    position: absolute;*/
+/*}*/
+
+
+/*#search-engines {*/
+/*    position: absolute;*/
+/*}*/
+
+
 .search-engines {
     margin-top: 10px;
     /*display: grid;*/
@@ -43,37 +73,33 @@ body {
     flex-wrap: wrap; /** 允许子项换行 *!*/
     /*flex-direction:row;*/
     /*border: 1px solid; !* 可选：给项添加边框以更清晰地看到它们 *!*/
-    border-radius: .75rem;
+    border-radius: 20px;
     overflow: auto; /* 或者使用 overflow: hidden; 如果你不希望出现滚动条 */
 }
 
-.search-history {
-    position: relative;
-    border: 1px solid ;
-    height: 200px;
-}
-
-
-/*@media (max-width: 50px) {*/
-/*    .search-engines {*/
-/*        grid-template-columns: repeat(1, 3fr);*/
-/*    }*/
+/*.page-center-vertically .page {*/
+/*    display: inline;*/
 /*}*/
 
-/*@media (max-width: 250px) {*/
-/*    .search-engines {*/
-/*        grid-template-columns:repeat(3, 1fr); !* 屏幕宽度小于50px时，变为一列 *!*/
-/*    }*/
+
+
+/*.page-center-vertically .page {*/
+/*    !*display: grid;*!*/
+
+/*    !** !* 垂直居中  控制 .page-column page-column-full 绝对位置 *!*!*/
+/*    justify-content: center;*/
+/*    flex-direction: column;*/
+/*    height: 100vh; !* 假设你想要它占满整个视窗高度 *!*/
 /*}*/
 
-/*@media (max-width: 650px) {*/
-/*    .search-engines {*/
-/*        grid-template-columns:repeat(10, 3fr); !* 屏幕宽度小于50px时，变为一列 *!*/
-/*    }*/
+/*.page-column-full {*/
+/*    position: absolute;*/
 /*}*/
-.page-center-vertically .page {
-    display: inline;
-}
+
+/*.page-column-full {*/
+/*    position: absolute;*/
+
+/*}*/
 
 
 .search-engine-item {
@@ -83,6 +109,131 @@ body {
     padding: 10px;
     cursor: pointer;
 }
+
+.search-br {
+    display: none;
+    /*position: absolute;*/
+    background: rgba(42, 42, 42, 0.42);
+    border-bottom: 2px solid #777676;
+}
+
+
+.search-history {
+    /*display: inherit;*/
+    display: none;
+    position: relative;
+    /*border: 1px solid ;*/
+    flex-direction: column;
+    border-radius: 0 0 20px 20px;
+    /*display: grid;*/
+    max-height: 400px; /* 根据需要调整这个值 */
+    overflow: auto; /* 或者使用 overflow: hidden; 如果你不希望出现滚动条 */
+    grid-auto-rows:40px; /* 或者任何你想要的行高 */
+    grid-column: 1 / -1; /* 跨越所有列 */
+    background: rgba(42, 42, 42, 0.32);
+}
+
+/* 隐藏的内容，使用visibility占位 */
+.search-history.hidden {
+    visibility: hidden;
+}
+
+
+
+
+.search-history-item {
+    /*margin-left: 40px;*/
+    /*display: none;*/
+    padding: 10px;
+    position: relative;
+    /*border-radius: 20px;*/
+}
+
+.search-history-item span {
+    padding: 2px;
+    margin-left: 40px;
+    color:white;
+    font-size: 14px;
+}
+
+
+.search-history-item:hover {
+    background-color: #aaa1a1;
+}
+
+
+@keyframes clickAnimation {
+    from { background-color: lightblue; }
+    to { background-color: white; }
+}
+
+.click-animated {
+    animation: clickAnimation 0.5s ease forwards;
+}
+
+
+.search-input {
+    font-family: v-sans, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 18px;
+    border: 0;
+    background: none;
+    width: 100%;
+    height: 6rem;
+    outline: none;
+    /*color: var(--color-text-highlight);*/
+    color: white
+}
+
+
+.mobile-navigation {
+    display: none; /** 控制手机端导航 */
+}
+
+
+.text-shadow{
+    text-shadow: 2px 2px 50px rgb(0, 0, 0);
+}
+
+.text-white {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+
+
+.font-bold {
+    font-weight: 700;
+}
+
+.text-2xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+@media (min-width: 768px) {
+    .md\:text-6xl {
+        font-size: 3.75rem;
+        line-height: 1;
+    }
+}
+
+
+
+
+/*.search-history li {*/
+/*    padding: 10px;*/
+/*    cursor: pointer;*/
+/*    overflow: auto; !* 或者使用 overflow: hidden; 如果你不希望出现滚动条 *!*/
+/*}*/
+
+/*.search-history li:hover {*/
+/*    background-color: #f0f0f0;*/
+/*}*/
+
 
 /*.widget-content:not(.widget-content-frameless), .widget-content-frame {*/
 /*    border: 3px red;*/
