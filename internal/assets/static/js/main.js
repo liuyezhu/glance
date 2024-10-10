@@ -86,6 +86,7 @@ function updateRelativeTimeForElements(elements) {
 }
 
 function setupSearchBoxes() {
+    // 限制搜索记录的长度
     const searchWidgets = document.getElementsByClassName("search");
     // let container = document.querySelector('.search-engines');
     // function addSearchEngineItem() {
@@ -127,7 +128,7 @@ function setupSearchBoxes() {
     const searchHistory = document.getElementById('search-history');
     // 获取图片元素
     const updateIconImg = document.querySelector('#search-icon img');
-
+    let defaultSearchUrl = ""
     // 定义搜索引擎列表
     // let engines = [
     // ];
@@ -211,7 +212,7 @@ function setupSearchBoxes() {
     // 实际执行一次
     for (let i = 0; i < searchWidgets.length; i++) {
         const widget = searchWidgets[i];
-        const defaultSearchUrl = widget.dataset.defaultSearchUrl;
+        defaultSearchUrl = widget.dataset.defaultSearchUrl;
         const newTab = widget.dataset.newTab === "true";
         const inputElement = widget.getElementsByClassName("search-input")[0];
         const bangElement = widget.getElementsByClassName("search-bang")[0];
@@ -326,15 +327,12 @@ function setupSearchBoxes() {
         // 设置延迟事件、避免影响
         inputElement.addEventListener("blur", (e) => {
 
-            // 检查焦点是否转移到你需要的点击元素上
             // if (document.activeElement.classList.contains('search-history-item')) {
             //     return;  // 如果点击的是搜索历史项，不执行隐藏操作
             // }
 
             // 设置延迟事件、避免影响
             setTimeout(() => {
-                console.log(e)
-                console.log("blur")
                 searchEngines.style.display = "none";
                 searchHistory.style.display = "none";
                 document.querySelector('.search-br').style.display = "none";
@@ -366,26 +364,29 @@ function setupSearchBoxes() {
 
 
     searchAction.addEventListener('click', () => {
-        actionSearch(searchInput.value.trim(),true,"")
+        actionSearch(searchInput.value.trim(), true)
     });
 
     function actionSearch(query = "", newTab = true, url = "") {
-        if (query === "") {
-            window.open(url, '_blank').focus()
-            return
-        }
-
         if (url === "") {
-            const searchUrlTemplate = localStorage.getItem("selectedSearchEngine")
+            console.log(defaultSearchUrl)
+
+            let searchUrlTemplate = localStorage.getItem("selectedSearchEngine")
+            searchUrlTemplate = searchUrlTemplate || defaultSearchUrl || "https://www.baidu.com/s?wd={QUERY}"
             url = searchUrlTemplate.replace("!QUERY!", encodeURIComponent(query))
         }
 
-        saveSearch(query, url)
+        if (query !== "") {
+            searchInput.value = ""
+            addSearchRecord(query, url)
+        }
+
+        console.log(url)
         newTab ? window.open(url, '_blank').focus() : window.location.href = url;
     }
 
-
-    function saveSearch(searchTerm, searchEnginesUrl) {
+    const MAX_HISTORY_LENGTH = 10;
+    function addSearchRecord(searchTerm, searchEnginesUrl) {
         if (searchTerm === "") {
             return
         }
@@ -397,9 +398,18 @@ function setupSearchBoxes() {
             url: searchEnginesUrl
         };
 
-        let searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
-        searchHistory.unshift(searchRecord);
-        localStorage.setItem("searchHistory", JSON.stringify(searchHistory))
+        let searchRecords = JSON.parse(localStorage.getItem('searchHistory')) || [];
+        const existingIndex = searchRecords.findIndex(record => record.term === searchTerm)
+        if (existingIndex !== -1) {
+            searchRecords.splice(existingIndex, 1);  // 删除旧的位置
+        }
+
+        searchRecords.unshift(searchRecord);
+        if (searchRecords.length > MAX_HISTORY_LENGTH) {
+            searchRecords.pop()
+        }
+
+        localStorage.setItem("searchHistory", JSON.stringify(searchRecords))
     }
 
 
@@ -418,11 +428,9 @@ function setupSearchBoxes() {
 
             newItem.addEventListener("click", function () {
                 searchInput.value = record.term
-                console.log("log click")
-                console.log(record.term, record.url, 'log-item')
                 setTimeout(() => {
                     actionSearch(record.term, true, record.url)
-                }, 500)
+                }, 800)
             });
 
             newItem.appendChild(span);
