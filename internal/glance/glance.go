@@ -34,11 +34,12 @@ type Theme struct {
 	PrimaryColor             *widget.HSLColorField `yaml:"primary-color"`
 	PositiveColor            *widget.HSLColorField `yaml:"positive-color"`
 	NegativeColor            *widget.HSLColorField `yaml:"negative-color"`
-	Background               string                `yaml:"background"`
+	BackgroundImage          string                `yaml:"background-image"`
 	Light                    bool                  `yaml:"light"`
 	ContrastMultiplier       float32               `yaml:"contrast-multiplier"`
 	TextSaturationMultiplier float32               `yaml:"text-saturation-multiplier"`
 	CustomCSSFile            string                `yaml:"custom-css-file"`
+	MouseClick               string                `yaml:"mouse-click"`
 }
 
 type Server struct {
@@ -170,6 +171,8 @@ func NewApplication(config *Config) (*Application, error) {
 
 	config.Server.BaseURL = strings.TrimRight(config.Server.BaseURL, "/")
 	config.Theme.CustomCSSFile = app.TransformUserDefinedAssetPath(config.Theme.CustomCSSFile)
+	config.Theme.BackgroundImage = app.TransformUserDefinedAssetPath(config.Theme.BackgroundImage)
+	config.Theme.MouseClick = app.TransformUserDefinedAssetPath(config.Theme.MouseClick)
 
 	if config.Branding.FaviconURL == "" {
 		config.Branding.FaviconURL = app.AssetPath("favicon.png")

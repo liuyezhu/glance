@@ -11,4 +11,8 @@
     {{ if .App.Config.Theme.PositiveColor }}--color-positive: {{ .App.Config.Theme.PositiveColor.AsCSSValue }};{{ end }}
     {{ if .App.Config.Theme.NegativeColor }}--color-negative: {{ .App.Config.Theme.NegativeColor.AsCSSValue }};{{ end }}
 }
+
+body {
+    background: url({{ .App.Config.Theme.BackgroundImage}}) center center / cover no-repeat;
+}
 </style>

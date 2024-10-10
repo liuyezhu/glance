@@ -17,13 +17,15 @@ type SearchBang struct {
 }
 
 type Search struct {
-	widgetBase   `yaml:",inline"`
-	cachedHTML   template.HTML `yaml:"-"`
-	SearchEngine string        `yaml:"search-engine"`
-	Bangs        []SearchBang  `yaml:"bangs"`
-	NewTab       bool          `yaml:"new-tab"`
-	Autofocus    bool          `yaml:"autofocus"`
-	SearchIcon   string        `yaml:"search-icon"`
+	widgetBase      `yaml:",inline"`
+	cachedHTML      template.HTML `yaml:"-"`
+	SearchEngine    string        `yaml:"search-engine"`
+	Bangs           []SearchBang  `yaml:"bangs"`
+	NewTab          bool          `yaml:"new-tab"`
+	Autofocus       bool          `yaml:"autofocus"`
+	SearchIcon      string        `yaml:"search-icon"`
+	DefaultBangIcon string        `yaml:"default-bang-icon"`
+	ClearIcon       string        `yaml:"clear-icon"`
 }
 
 func convertSearchUrl(url string) string {
@@ -77,6 +79,12 @@ func (widget *Search) JoinUrl() {
 	if !isInterfaceNotNilAndTypeNotNil(widget.Providers) {
 		return
 	}
+
+	if widget.DefaultBangIcon != "" {
+		widget.DefaultBangIcon = widget.Providers.AssetResolver(widget.DefaultBangIcon)
+	}
+
+	widget.ClearIcon = widget.Providers.AssetResolver("icons/clear.svg")
 
 	if widget.SearchIcon != "" || !isValidHTTPorHTTPSURL(widget.SearchIcon) {
 		widget.SearchIcon = widget.Providers.AssetResolver(widget.SearchIcon)

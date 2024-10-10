@@ -935,41 +935,41 @@ details[open] .summary::after {
     -webkit-box-orient: vertical;
 }
 
-.search-icon {
-    width: 2.3rem;
-}
+/*.search-icon {*/
+/*    width: 2.3rem;*/
+/*}*/
 
-.search-icon-container {
-    position: relative;
-    flex-shrink: 0;
-    cursor: pointer;
-}
+/*.search-icon-container {*/
+/*    position: relative;*/
+/*    flex-shrink: 0;*/
+/*    cursor: pointer;*/
+/*}*/
 
-/* gives a wider hit area for the 3 people that will notice the animation : ) */
-.search-icon-container::before {
-    content: '';
-    position: absolute;
-    inset: -1rem;
-}
+/*!* gives a wider hit area for the 3 people that will notice the animation : ) *!*/
+/*.search-icon-container::before {*/
+/*    content: '';*/
+/*    position: absolute;*/
+/*    inset: -1rem;*/
+/*}*/
 
-.search-icon-container:hover > .search-icon {
-    animation: searchIconHover 2.9s forwards;
-}
+/*.search-icon-container:hover > .search-icon {*/
+/*    animation: searchIconHover 2.9s forwards;*/
+/*}*/
 
-@keyframes searchIconHover {
-    0%, 39% { translate: 0 0; }
-    20% { scale: 1.3; }
-    40% { scale: 1; }
-    50% { translate: -30% 30%; }
-    70% { translate: 30% -30%; }
-    90% { translate: -30% -30%; }
-    100% { translate: 0 0; }
-}
+/*@keyframes searchIconHover {*/
+/*    0%, 39% { translate: 0 0; }*/
+/*    20% { scale: 1.3; }*/
+/*    40% { scale: 1; }*/
+/*    50% { translate: -30% 30%; }*/
+/*    70% { translate: 30% -30%; }*/
+/*    90% { translate: -30% -30%; }*/
+/*    100% { translate: 0 0; }*/
+/*}*/
 
-.search {
-    transition: border-color .2s;
-    position: relative;
-}
+/*.search {*/
+/*    transition: border-color .2s;*/
+/*    position: relative;*/
+/*}*/
 
 /*.search:hover {*/
 /*    border-color: var(--color-text-subdue);*/

@@ -1,0 +1,14 @@
+# .air.toml
+root = "."
+tmp_dir = "tmp"
+watch_dir = ["."]
+exclude_dir = ["tmp", "vendor"]
+
+[build]
+  cmd = "go build -o ./tmp/glance.exe ."
+  bin = "tmp/glance.exe"
+  include_ext = ["go", "html", "css", "js",'gotmpl','yaml','yml']
+  exclude_ext = ["jpg", "png", "gif", "svg"]
+
+[log]
+  level = "info"

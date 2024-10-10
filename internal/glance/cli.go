@@ -21,7 +21,7 @@ func ParseCliOptions() (*CliOptions, error) {
 	flags := flag.NewFlagSet("", flag.ExitOnError)
 
 	checkConfig := flags.Bool("check-config", false, "Check whether the config is valid")
-	configPath := flags.String("config", "glance.yml", "Set config path")
+	configPath := flags.String("f", "glance.yml", "Set config path")
 
 	err := flags.Parse(os.Args[1:])
 

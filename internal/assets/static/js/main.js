@@ -158,15 +158,7 @@ function setupSearchBoxes() {
         searchEngines.style.display = 'flex'
     });
 
-    searchAction.addEventListener('click', () => {
-        let inputElement = document.querySelector('#search-input');
-        let input = inputElement.value.trim();
-        let searchUrlTemplate;
-        let  query = input;
-        searchUrlTemplate = localStorage.getItem("selectedSearchEngine")
-        const url = searchUrlTemplate.replace("!QUERY!", encodeURIComponent(query));
-        window.open(url, '_blank').focus();
-    });
+
 
 
     // 获取所有具有search-engine-item类的元素
@@ -261,12 +253,13 @@ function setupSearchBoxes() {
                 }
 
                 const url = searchUrlTemplate.replace("!QUERY!", encodeURIComponent(query));
-
-                if (newTab && !event.ctrlKey || !newTab && event.ctrlKey) {
-                    window.open(url, '_blank').focus();
-                } else {
-                    window.location.href = url;
-                }
+                actionSearch(query, true, url)
+                // saveSearch(query, url)
+                // if (newTab && !event.ctrlKey || !newTab && event.ctrlKey) {
+                //     window.open(url, '_blank').focus();
+                // } else {
+                //     window.location.href = url;
+                // }
 
                 return;
             }
@@ -293,50 +286,151 @@ function setupSearchBoxes() {
             changeCurrentBang(null);
         };
 
+        const searchInputClear = document.getElementById("search-input-clear");
+        inputElement.addEventListener("input", (event) => {
+            if (inputElement.value.length > 0) {
+                searchInputClear.style.display = 'block'
+                return
+            }
+
+            searchInputClear.style.display = 'none'
+        });
+
+
+        searchInputClear.addEventListener("click", function () {
+            inputElement.value = '';
+            searchInputClear.style.display = 'none'
+            inputElement.focus()
+        })
 
         inputElement.addEventListener("focus", () => {
             const displayStyle = window.getComputedStyle(searchEngines).display;
             if (displayStyle !== "none") {
                 searchEngines.style.display = "none";
             }
-            console.log('focus')
 
             document.addEventListener("keydown", handleKeyDown);
             document.addEventListener("input", handleInput);
         });
 
         inputElement.addEventListener('click', function (event) {
-            console.log('click')
+            if (!renderSearchHistory()){
+                return
+            }
 
             searchHistory.style.display = "grid";
             widget.style.borderRadius = "20px 20px 0px 0px";
             document.querySelector('.search-br').style.display = "block";
         });
 
-        inputElement.addEventListener("blur", () => {
-            console.log('blur')
-            searchEngines.style.display = "none";
-            searchHistory.style.display = "none";
-            document.querySelector('.search-br').style.display = "none";
-            widget.style.borderRadius  = "20px";
-            isSearchEnginesMenu = false;
-            document.removeEventListener("keydown", handleKeyDown);
-            document.removeEventListener("input", handleInput);
+        // 设置延迟事件、避免影响
+        inputElement.addEventListener("blur", (e) => {
+
+            // 检查焦点是否转移到你需要的点击元素上
+            // if (document.activeElement.classList.contains('search-history-item')) {
+            //     return;  // 如果点击的是搜索历史项，不执行隐藏操作
+            // }
+
+            // 设置延迟事件、避免影响
+            setTimeout(() => {
+                console.log(e)
+                console.log("blur")
+                searchEngines.style.display = "none";
+                searchHistory.style.display = "none";
+                document.querySelector('.search-br').style.display = "none";
+                widget.style.borderRadius = "20px";
+                isSearchEnginesMenu = false;
+                document.removeEventListener("keydown", handleKeyDown);
+                document.removeEventListener("input", handleInput);
+            }, 500)
+
         });
 
         document.addEventListener("keydown", (event) => {
-            if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
-            if (event.key != "s") return;
+            if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+                return;
+            }
+
+            if (event.key !== "s"){
+                return;
+            }
 
             inputElement.focus();
             event.preventDefault();
         });
 
-        kbdElement.addEventListener("mousedown", () => {
-            requestAnimationFrame(() => inputElement.focus());
-        });
+        // kbdElement.addEventListener("mousedown", () => {
+        //     requestAnimationFrame(() => inputElement.focus());
+        // });
     }
 
+
+    searchAction.addEventListener('click', () => {
+        actionSearch(searchInput.value.trim(),true,"")
+    });
+
+    function actionSearch(query = "", newTab = true, url = "") {
+        if (query === "") {
+            window.open(url, '_blank').focus()
+            return
+        }
+
+        if (url === "") {
+            const searchUrlTemplate = localStorage.getItem("selectedSearchEngine")
+            url = searchUrlTemplate.replace("!QUERY!", encodeURIComponent(query))
+        }
+
+        saveSearch(query, url)
+        newTab ? window.open(url, '_blank').focus() : window.location.href = url;
+    }
+
+
+    function saveSearch(searchTerm, searchEnginesUrl) {
+        if (searchTerm === "") {
+            return
+        }
+
+        const searchTime = new Date().toLocaleString();
+        const searchRecord = {
+            term: searchTerm,
+            time: searchTime,
+            url: searchEnginesUrl
+        };
+
+        let searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+        searchHistory.unshift(searchRecord);
+        localStorage.setItem("searchHistory", JSON.stringify(searchHistory))
+    }
+
+
+    function renderSearchHistory() {
+        searchHistory.innerHTML = ''; // 清空搜索历史
+        const searchHistoryList = JSON.parse(localStorage.getItem('searchHistory')) || [];
+        if (searchHistoryList.length===0){
+            return false
+        }
+
+        searchHistoryList.forEach(record => {
+            const newItem = document.createElement('div');
+            newItem.className = 'search-history-item';
+            const span = document.createElement('span');
+            span.textContent = record.term;
+
+            newItem.addEventListener("click", function () {
+                searchInput.value = record.term
+                console.log("log click")
+                console.log(record.term, record.url, 'log-item')
+                setTimeout(() => {
+                    actionSearch(record.term, true, record.url)
+                }, 500)
+            });
+
+            newItem.appendChild(span);
+            searchHistory.appendChild(newItem)
+        });
+
+        return true
+    }
 
 }
 
@@ -494,7 +588,7 @@ function attachExpandToggleButton(collapsibleContainer) {
     collapsibleContainer.after(button);
 
     return button;
-};
+}
 
 
 function setupCollapsibleLists() {

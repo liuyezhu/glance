@@ -1,7 +1,6 @@
-body {
-    background: url("https://666666.dev/uploads/2024/4/24/b1de14ec4fd4b0b5a6a06f16d17e3468.webp") center center / cover no-repeat;
-}
-
+/*body {*/
+/*    background: url("https://666666.dev/uploads/2024/4/24/b1de14ec4fd4b0b5a6a06f16d17e3468.webp") center center / cover no-repeat;*/
+/*}*/
 
  .search {
      background: rgba(42, 42, 42, 0.32);
@@ -41,8 +40,22 @@ body {
 
 .search-icon-container {
     margin-right: 5px;
-
 }
+
+.search-icon-container:hover img {
+    /* 放大图像，这里使用scale函数，1.5是放大的比例，你可以根据需要调整 */
+    transform: scale(2);
+
+    /* 如果你想让图像在放大时仍然保持居中，确保容器的display和align-items属性是合适的 */
+    /* 例如，如果.search-icon-container是一个flex容器，你可能需要： */
+    /* display: flex; */
+    /* justify-content: center; */
+    /* align-items: center; */
+
+    /* 注意：如果容器大小固定，并且图像放大后超出容器边界，
+       你可能需要设置容器的overflow属性为visible，或者调整容器大小以容纳放大的图像 */
+}
+
 
 .search-icon-container img,svg{
     height: 20px;
@@ -117,6 +130,10 @@ body {
     border-bottom: 2px solid #777676;
 }
 
+#search-input-clear {
+    margin-right: 20px;
+}
+
 
 .search-history {
     /*display: inherit;*/
@@ -133,21 +150,28 @@ body {
     background: rgba(42, 42, 42, 0.32);
 }
 
-/* 隐藏的内容，使用visibility占位 */
-.search-history.hidden {
-    visibility: hidden;
-}
-
-
-
-
 .search-history-item {
     /*margin-left: 40px;*/
     /*display: none;*/
     padding: 10px;
     position: relative;
     /*border-radius: 20px;*/
+    cursor: pointer;
+
 }
+
+.hidden {
+    display: none;
+}
+
+
+
+.hidden-v {
+visibility: hidden;
+}
+
+
+
 
 .search-history-item span {
     padding: 2px;
