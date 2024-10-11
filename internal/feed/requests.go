@@ -8,14 +8,38 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"sync"
 	"time"
 )
 
 const defaultClientTimeout = 5 * time.Second
 
-var defaultClient = &http.Client{
-	Timeout: defaultClientTimeout,
+//var defaultClient = &http.Client{
+//	Timeout: defaultClientTimeout,
+//}
+
+var defaultClient = getDefaultClient()
+
+var proxyTransport = &http.Transport{
+	Proxy: http.ProxyURL(getUrl()),
+}
+
+func getDefaultClient() *http.Client {
+	// 判断是否开发dev环境
+	return &http.Client{
+		Timeout:   defaultClientTimeout,
+		Transport: proxyTransport,
+	}
+}
+
+func getUrl() *url.URL {
+	parse, err := url.Parse("http://127.0.0.1:1082")
+	if err != nil {
+		return nil
+	}
+
+	return parse
 }
 
 var insecureClientTransport = &http.Transport{

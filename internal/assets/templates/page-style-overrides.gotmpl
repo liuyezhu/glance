@@ -4,6 +4,7 @@
     --bgh: {{ .App.Config.Theme.BackgroundColor.Hue }};
     --bgs: {{ .App.Config.Theme.BackgroundColor.Saturation }}%;
     --bgl: {{ .App.Config.Theme.BackgroundColor.Lightness }}%;
+    --bga: {{ .App.Config.Theme.Alpha }};
     {{ end }}
     {{ if ne 0.0 .App.Config.Theme.ContrastMultiplier }}--cm: {{ .App.Config.Theme.ContrastMultiplier }};{{ end }}
     {{ if ne 0.0 .App.Config.Theme.TextSaturationMultiplier }}--tsm: {{ .App.Config.Theme.TextSaturationMultiplier }};{{ end }}
@@ -11,8 +12,10 @@
     {{ if .App.Config.Theme.PositiveColor }}--color-positive: {{ .App.Config.Theme.PositiveColor.AsCSSValue }};{{ end }}
     {{ if .App.Config.Theme.NegativeColor }}--color-negative: {{ .App.Config.Theme.NegativeColor.AsCSSValue }};{{ end }}
 }
-
+{{if ne "" .App.Config.Theme.BackgroundImage}}
 body {
-    background: url({{ .App.Config.Theme.BackgroundImage}}) center center / cover no-repeat;
+    background: url({{ .App.Config.Theme.BackgroundImage}}) center center / cover no-repeat fixed;
 }
+{{end}}
+
 </style>

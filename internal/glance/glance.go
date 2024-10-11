@@ -37,6 +37,7 @@ type Theme struct {
 	BackgroundImage          string                `yaml:"background-image"`
 	Light                    bool                  `yaml:"light"`
 	ContrastMultiplier       float32               `yaml:"contrast-multiplier"`
+	Alpha                    float32               `yaml:"alpha"`
 	TextSaturationMultiplier float32               `yaml:"text-saturation-multiplier"`
 	CustomCSSFile            string                `yaml:"custom-css-file"`
 	MouseClick               string                `yaml:"mouse-click"`
@@ -170,9 +171,18 @@ func NewApplication(config *Config) (*Application, error) {
 	config = &app.Config
 
 	config.Server.BaseURL = strings.TrimRight(config.Server.BaseURL, "/")
-	config.Theme.CustomCSSFile = app.TransformUserDefinedAssetPath(config.Theme.CustomCSSFile)
-	config.Theme.BackgroundImage = app.TransformUserDefinedAssetPath(config.Theme.BackgroundImage)
-	config.Theme.MouseClick = app.TransformUserDefinedAssetPath(config.Theme.MouseClick)
+
+	if config.Theme.CustomCSSFile != "" {
+		config.Theme.CustomCSSFile = app.TransformUserDefinedAssetPath(config.Theme.CustomCSSFile)
+	}
+
+	if config.Theme.BackgroundImage != "" {
+		config.Theme.BackgroundImage = app.TransformUserDefinedAssetPath(config.Theme.BackgroundImage)
+	}
+
+	if config.Theme.MouseClick != "" {
+		config.Theme.MouseClick = app.TransformUserDefinedAssetPath(config.Theme.MouseClick)
+	}
 
 	if config.Branding.FaviconURL == "" {
 		config.Branding.FaviconURL = app.AssetPath("favicon.png")

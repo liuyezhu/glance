@@ -1,14 +1,67 @@
 # .air.toml
+#root = "."
+#tmp_dir = "tmp"
+#watch_dir = ["."]
+#exclude_dir = ["tmp", "vendor"]
+#
+#[build]
+#cmd = "go build -o ./tmp/glance.exe ."
+#bin = "tmp/glance.exe"
+#include_ext = ["go", "html", "css", "js",'gotmpl','yaml','yml']
+#exclude_ext = ["jpg", "png", "gif", "svg"]
+#
+#[log]
+#level = "debug"  # 设置日志级别为 debug，打印所有日志
+#file = ""        # 为空表示输出到终端，不保存到文件
 root = "."
+testdata_dir = "testdata"
 tmp_dir = "tmp"
-watch_dir = ["."]
-exclude_dir = ["tmp", "vendor"]
 
 [build]
-  cmd = "go build -o ./tmp/glance.exe ."
-  bin = "tmp/glance.exe"
-  include_ext = ["go", "html", "css", "js",'gotmpl','yaml','yml']
-  exclude_ext = ["jpg", "png", "gif", "svg"]
+args_bin = []
+bin = "tmp\\glance.exe"
+cmd = "go build -o ./tmp/glance.exe ."
+delay = 1000
+exclude_dir = ["assets", "tmp", "vendor", "testdata"]
+exclude_file = []
+exclude_regex = ["_test.go"]
+exclude_unchanged = false
+follow_symlink = false
+full_bin = "./tmp/glance.exe"
+include_dir = []
+include_ext = ["go", "html", "css", "js",'gotmpl','yaml','yml']
+exclude_ext = ["jpg", "png", "gif", "svg"]
+include_file = []
+kill_delay = "0s"
+log = "build-errors.log"
+poll = false
+poll_interval = 0
+post_cmd = []
+pre_cmd = []
+rerun = false
+rerun_delay = 500
+send_interrupt = false
+stop_on_error = false
+
+[color]
+app = ""
+build = "yellow"
+main = "magenta"
+runner = "green"
+watcher = "cyan"
 
 [log]
-  level = "info"
+level = "debug"
+
+
+[misc]
+clean_on_exit = false
+
+[proxy]
+app_port = 0
+enabled = false
+proxy_port = 0
+
+[screen]
+clear_on_rebuild = false
+keep_scroll = true

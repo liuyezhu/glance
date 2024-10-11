@@ -6,6 +6,8 @@
     src: url('fonts/JetBrainsMono-Regular.woff2') format('woff2');
 }
 
+
+
 :root {
     font-size: 10px;
 
@@ -13,9 +15,11 @@
     --bgh: 240;
     --bgs: 8%;
     --bgl: 9%;
+    --bga: 1;
     --bghs: var(--bgh), var(--bgs);
     --cm: 1;
     --tsm: 1;
+
 
     --widget-gap: 25px;
     --widget-content-vertical-padding: 15px;
@@ -28,9 +32,9 @@
     --color-primary: hsl(43, 50%, 70%);
     --color-positive: var(--color-primary);
     --color-negative: hsl(0, 70%, 70%);
-    --color-background: hsl(var(--bghs), var(--bgl));
+    --color-background: hsla(var(--bghs), var(--bgl));
     --color-widget-background-hsl-values: var(--bghs), calc(var(--bgl) + 1%);
-    --color-widget-background: hsl(var(--color-widget-background-hsl-values));
+    --color-widget-background: hsla(var(--color-widget-background-hsl-values),var(--bga));
     --color-separator: hsl(var(--bghs), calc(var(--scheme) ((var(--scheme) var(--bgl)) + 4% * var(--cm))));
     --color-widget-content-border: hsl(var(--bghs), calc(var(--scheme) (var(--scheme) var(--bgl) + 4%)));
     --color-widget-background-highlight: hsl(var(--bghs), calc(var(--scheme) (var(--scheme) var(--bgl) + 4%)));

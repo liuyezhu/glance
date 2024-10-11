@@ -2,16 +2,17 @@
 /*    background: url("https://666666.dev/uploads/2024/4/24/b1de14ec4fd4b0b5a6a06f16d17e3468.webp") center center / cover no-repeat;*/
 /*}*/
 
- .search {
-     background: rgba(42, 42, 42, 0.32);
+ .search{
+     /*background: rgba(42, 42, 42, 0.56);*/
+     background: var(--color-widget-background);
      border-radius: 20px;
-     box-shadow: 0px 0px 0px 0px hsl(var(--bghs));
-
+     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);  /* 柔和的阴影 */
      /*border: 2px solid rgb(255, 255, 255);*/
      transition: box-shadow 0.5s, backdrop-filter 0.5s, -webkit-backdrop-filter 0.5s;
      padding: 2px 10px;
      backdrop-filter: blur(2px);
  }
+
 
 .widget-header {
     padding: 0 calc(var(--widget-content-horizontal-padding) + 1px);
@@ -22,6 +23,9 @@
     gap: 1rem;
 }
 
+/*:root {*/
+/*    --widget-gap: 100px*/
+/*}*/
 
 
 .search:focus-within {
@@ -79,7 +83,8 @@
     /*display: grid;*/
     display: none;
     position: relative;
-    background: rgba(42, 42, 42, 0.42);
+    background: var(--color-widget-background);
+    /*background: rgba(42, 42, 42, 0.42);*/
     /*grid-template-columns: repeat(10, 3fr); !* 默认三列 *!*/
     gap: 10px; /* 子项之间的间隔 */
     padding: 10px; /* 容器内边距 */
@@ -89,6 +94,8 @@
     border-radius: 20px;
     overflow: auto; /* 或者使用 overflow: hidden; 如果你不希望出现滚动条 */
 }
+
+
 
 /*.page-center-vertically .page {*/
 /*    display: inline;*/
@@ -130,6 +137,10 @@
     border-bottom: 2px solid #777676;
 }
 
+.sdd{
+    background-color248: #363636;
+}
+
 #search-input-clear {
     margin-right: 20px;
 }
@@ -137,6 +148,7 @@
 
 .search-history {
     /*display: inherit;*/
+    background: var(--color-widget-background);
     display: none;
     position: relative;
     /*border: 1px solid ;*/
@@ -147,7 +159,12 @@
     overflow: auto; /* 或者使用 overflow: hidden; 如果你不希望出现滚动条 */
     grid-auto-rows:40px; /* 或者任何你想要的行高 */
     grid-column: 1 / -1; /* 跨越所有列 */
-    background: rgba(42, 42, 42, 0.32);
+    /*background: rgba(42, 42, 42, 0.42); !* 浅灰色 *!*/
+    /*background-color: rgba(0, 123, 255, 0.2);    !* 半透明浅蓝色 *!*/
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);  /* 柔和的阴影 */
+    /*color: #333;    !* 深灰色 *!*/
+
+
 }
 
 .search-history-item {
@@ -176,23 +193,13 @@ visibility: hidden;
 .search-history-item span {
     padding: 2px;
     margin-left: 40px;
-    color:white;
+    /*color:white;*/
     font-size: 14px;
 }
 
 
 .search-history-item:hover {
-    background-color: #aaa1a1;
-}
-
-
-@keyframes clickAnimation {
-    from { background-color: lightblue; }
-    to { background-color: white; }
-}
-
-.click-animated {
-    animation: clickAnimation 0.5s ease forwards;
+    background: rgba(42, 42, 42, 0.5); /* 浅灰色 */
 }
 
 
@@ -205,8 +212,10 @@ visibility: hidden;
     height: 6rem;
     outline: none;
     /*color: var(--color-text-highlight);*/
-    color: white
+    color: var(--color-text-highlight);
 }
+
+
 
 
 .mobile-navigation {
@@ -245,21 +254,6 @@ visibility: hidden;
     }
 }
 
-
-
-
-/*.search-history li {*/
-/*    padding: 10px;*/
-/*    cursor: pointer;*/
-/*    overflow: auto; !* 或者使用 overflow: hidden; 如果你不希望出现滚动条 *!*/
-/*}*/
-
-/*.search-history li:hover {*/
-/*    background-color: #f0f0f0;*/
-/*}*/
-
-
-/*.widget-content:not(.widget-content-frameless), .widget-content-frame {*/
-/*    border: 3px red;*/
-/*    !*border-color: whitesmoke;*!*/
-/*}*/
+.te{
+    color: rgb(54, 54, 54);
+}

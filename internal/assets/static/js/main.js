@@ -149,6 +149,8 @@ function setupSearchBoxes() {
     let isSearchEnginesMenu = false; // 用于跟踪菜单是否可见
     // 点击G图标显示菜单
     searchIcon.addEventListener('click', () => {
+        console.log(" searchIcon click", isSearchEnginesMenu)
+
         if (isSearchEnginesMenu) {
             isSearchEnginesMenu = false;
             deleteSearchEngineItem()
@@ -195,7 +197,7 @@ function setupSearchBoxes() {
 
     // 点击其他地方隐藏菜单
     document.addEventListener('click', (event) => {
-        document.body.classList.add('click-animated');
+        // document.body.classList.add('click-animated');
 
         // if(searchEngines.contains(event.target)){
         //     return
@@ -305,6 +307,7 @@ function setupSearchBoxes() {
         })
 
         inputElement.addEventListener("focus", () => {
+            console.log("ffff")
             const displayStyle = window.getComputedStyle(searchEngines).display;
             if (displayStyle !== "none") {
                 searchEngines.style.display = "none";
@@ -326,6 +329,7 @@ function setupSearchBoxes() {
 
         // 设置延迟事件、避免影响
         inputElement.addEventListener("blur", (e) => {
+            console.log("blur")
 
             // if (document.activeElement.classList.contains('search-history-item')) {
             //     return;  // 如果点击的是搜索历史项，不执行隐藏操作
@@ -333,14 +337,15 @@ function setupSearchBoxes() {
 
             // 设置延迟事件、避免影响
             setTimeout(() => {
-                searchEngines.style.display = "none";
+                // searchEngines.style.display = "none";
+
                 searchHistory.style.display = "none";
                 document.querySelector('.search-br').style.display = "none";
                 widget.style.borderRadius = "20px";
                 isSearchEnginesMenu = false;
                 document.removeEventListener("keydown", handleKeyDown);
                 document.removeEventListener("input", handleInput);
-            }, 500)
+            }, 200)
 
         });
 
