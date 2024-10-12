@@ -4,18 +4,31 @@
     --bgh: {{ .App.Config.Theme.BackgroundColor.Hue }};
     --bgs: {{ .App.Config.Theme.BackgroundColor.Saturation }}%;
     --bgl: {{ .App.Config.Theme.BackgroundColor.Lightness }}%;
-    --bga: {{ .App.Config.Theme.Alpha }};
+    --bga: {{ .App.Config.Theme.BackgroundColorAlpha }};
     {{ end }}
     {{ if ne 0.0 .App.Config.Theme.ContrastMultiplier }}--cm: {{ .App.Config.Theme.ContrastMultiplier }};{{ end }}
     {{ if ne 0.0 .App.Config.Theme.TextSaturationMultiplier }}--tsm: {{ .App.Config.Theme.TextSaturationMultiplier }};{{ end }}
     {{ if .App.Config.Theme.PrimaryColor }}--color-primary: {{ .App.Config.Theme.PrimaryColor.AsCSSValue }};{{ end }}
     {{ if .App.Config.Theme.PositiveColor }}--color-positive: {{ .App.Config.Theme.PositiveColor.AsCSSValue }};{{ end }}
     {{ if .App.Config.Theme.NegativeColor }}--color-negative: {{ .App.Config.Theme.NegativeColor.AsCSSValue }};{{ end }}
+
+    {{if ne "" .App.Config.Theme.BackgroundImage}}
+    --border-radius: 20px;
+    --widget-content-border-width: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    --widget-content-padding: 0px;
+    --color-separator:rgb(255,255,255);
+    --widget-content-padding: 10px;
+    --widget-content-box-shadow:0px 4px 10px rgba(0, 0, 0, 0.2)px;
+    {{end}}
 }
+
 {{if ne "" .App.Config.Theme.BackgroundImage}}
 body {
     background: url({{ .App.Config.Theme.BackgroundImage}}) center center / cover no-repeat fixed;
 }
 {{end}}
+
+
+
 
 </style>

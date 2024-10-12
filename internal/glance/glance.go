@@ -37,7 +37,7 @@ type Theme struct {
 	BackgroundImage          string                `yaml:"background-image"`
 	Light                    bool                  `yaml:"light"`
 	ContrastMultiplier       float32               `yaml:"contrast-multiplier"`
-	Alpha                    float32               `yaml:"alpha"`
+	BackgroundColorAlpha     float32               `yaml:"background-color-alpha"`
 	TextSaturationMultiplier float32               `yaml:"text-saturation-multiplier"`
 	CustomCSSFile            string                `yaml:"custom-css-file"`
 	MouseClick               string                `yaml:"mouse-click"`

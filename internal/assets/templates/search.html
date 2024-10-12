@@ -5,22 +5,25 @@
 <!--<div class="search-br-1 " ></div>-->
 
 <!--<div class="search widget-content-frame padding-inline-widget flex gap-30 items-center"-->
-<div class="search padding-inline-widget flex gap-30 items-center"
-     data-default-search-url="{{ .SearchEngine }}" data-new-tab="{{ .NewTab }}" style="display: flex; ">
-    <div class="search-bangs" style="display: none">
-        {{ range .Bangs }}
-        <input type="hidden" data-shortcut="{{ .Shortcut }}" data-title="{{ .Title }}" data-url="{{ .URL }}" data-icon="{{.Icon}}">
-        {{ end }}
-    </div>
+<div class="search widget-content padding-inline-widget items-center"
+     data-default-search-url="{{ .SearchEngine }}" data-new-tab="{{ .NewTab }}">
 
-    <div class="search-icon-container" id="search-icon">
-        <img loading="eager" src="{{ .DefaultBangIcon }}"
-             data-image-src="{{ .DefaultBangIcon }}">
+    <div class="flex">
+        <div class="search-bangs" style="display: none">
+            {{ range .Bangs }}
+            <input type="hidden" data-shortcut="{{ .Shortcut }}" data-title="{{ .Title }}" data-url="{{ .URL }}"
+                   data-icon="{{.Icon}}">
+            {{ end }}
+        </div>
 
-        <!--        <svg class="search-icon" stroke="var(&#45;&#45;color-text-subdue)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5">-->
-        <!--            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />-->
-        <!--        </svg>-->
-    </div>
+        <div class="search-icon-container" id="search-icon">
+            <img loading="eager" src="{{ .DefaultBangIcon }}"
+                 data-image-src="{{ .DefaultBangIcon }}">
+
+            <!--        <svg class="search-icon" stroke="var(&#45;&#45;color-text-subdue)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5">-->
+            <!--            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />-->
+            <!--        </svg>-->
+        </div>
 
     <input class="search-input" id="search-input" type="text" placeholder=" Type here to search… " autocomplete="off"
            {{
@@ -28,28 +31,42 @@
            autofocus{{ end }}>
     <div class="search-bang"></div>
 
-    <div class="search-icon-container hidden" id="search-input-clear">
-        <img loading="eager" src="{{.ClearIcon}}">
+        <div class="search-icon-container hidden" id="search-input-clear">
+            <img loading="eager" src="{{.ClearIcon}}">
+        </div>
+
+        <div class="search-icon-container" id="search-action">
+            <img loading="eager" src="{{.SearchIcon}}">
+        </div>
+        <!--    <kbd class="hide-on-mobile" title="Press [S] to focus the search input">S</kbd>-->
     </div>
 
-    <div class="search-icon-container" id="search-action">
-        <img loading="eager" src="{{.SearchIcon}}">
-    </div>
-<!--    <kbd class="hide-on-mobile" title="Press [S] to focus the search input">S</kbd>-->
-</div>
-<div class="search-br" ></div>
 
-<div class="search-history" id="search-history">
-    <div class="search-history-item"><span>开发中sdsd，sd 开发中</span></div>
-    <div class="search-history-item"><span>开发中，开发中</span></div>
-</div>
-<div class="search-engines" id="search-engines">
-    {{ range.Bangs }}
-    <div class="search-engine-item" data-title="{{.Title}}" data-shortcut="{{ .Shortcut }}" data-url="{{ .URL }}" data-icon="{{.Icon}}">
-        <img loading="eager" src="{{ .Icon }}" alt="{{.Title}}" class="search-engine-icon">
-    </div>
-    {{ end }}
+    <!--    <div class="search-br animate__animated animate__bounceInUp" ></div>-->
 
-<!--    <div style="display: grid"> </div>-->
+    <div class="search-history" id="search-history">
+        <div class="search-history-item"><span>开发中sdsd，sd 开发中</span></div>
+        <div class="search-history-item"><span>开发中，开发中</span></div>
+    </div>
+
+    <div class="search-engines animate__animated animate__bounceInUp" id="search-engines">
+        {{ range.Bangs }}
+        <div class="search-engine-item" data-title="{{.Title}}" data-shortcut="{{ .Shortcut }}" data-url="{{ .URL }}"
+             data-icon="{{.Icon}}">
+            <img loading="eager" src="{{ .Icon }}" alt="{{.Title}}" class="search-engine-icon">
+        </div>
+
+        <div class="search-engine-item" data-title="{{.Title}}" data-shortcut="{{ .Shortcut }}" data-url="{{ .URL }}"
+             data-icon="{{.Icon}}">
+            <img loading="eager" src="{{ .Icon }}" alt="{{.Title}}" class="search-engine-icon">
+        </div>
+
+        <div class="search-engine-item" data-title="{{.Title}}" data-shortcut="{{ .Shortcut }}" data-url="{{ .URL }}"
+             data-icon="{{.Icon}}">
+            <img loading="eager" src="{{ .Icon }}" alt="{{.Title}}" class="search-engine-icon">
+        </div>
+        {{ end }}
+    </div>
 </div>
+
 {{end}}

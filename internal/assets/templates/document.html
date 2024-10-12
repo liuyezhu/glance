@@ -16,6 +16,7 @@
     <link rel="icon" type="image/png" href="{{ .App.Config.Branding.FaviconURL }}" />
     <link rel="stylesheet" href="{{ .App.AssetPath "main.css" }}">
     <script type="module" src="{{ .App.AssetPath "js/main.js" }}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
     {{if  .App.Config.Theme.MouseClick }}
     <canvas class="fireworks" style="position:fixed;left:0;top:0;z-index:99999999;pointer-events:none;"></canvas>

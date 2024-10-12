@@ -1,78 +1,124 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Flexbox Example with Button Add</title>
-<style>
-    :root {
-        --widget-gap: 20px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Search Bar with History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+        }
 
-    .page-center-vertically {
+        .search-container {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        width: 100%;
-    }
+        .search-box {
+            width: 200px;
+            height: 40px;
+            padding: 10px;
+            border: 2px solid #333;
+            border-radius: 25px;
+            outline: none;
+            transition: all 0.4s ease-in-out;
+            font-size: 16px;
+        }
 
-    .page-center-vertically .page {
-        margin-top: 10px;
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        max-height: 80vh; /* 限制.page的最大高度以便更容易看到滚动条 */
-        overflow-y: auto;
-        padding: var(--widget-gap);
-        box-sizing: border-box;
-    }
+        .search-box:focus {
+            width: 400px;
+            height: 50px;
+            border-color: #007BFF;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 999;
+        }
 
-    .page-item {
-        margin-bottom: var(--widget-gap);
-        padding: 10px;
-        border: 1px solid #ccc;
-    }
+        .search-history {
+            position: absolute;
+            top: 100px;
+            width: 300px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            display: none;
+        }
 
-    /* 按钮样式 */
-    .add-button {
-        margin-top: var(--widget-gap);
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
-    }
-</style>
+        .search-history ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .search-history ul li {
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .search-history ul li:last-child {
+            border-bottom: none;
+        }
+    </style>
 </head>
 <body>
 
-<div class="page-center-vertically">
-    <div class="page">
-        <!-- 初始的子div块 -->
-        <div class="page-item">Item 1</div>
-        <div class="page-item">Item 2</div>
+<div class="search-container">
+    <input type="text" class="search-box" id="searchBox" placeholder="Search...">
+    <div class="search-history" id="searchHistory">
+        <ul id="historyList">
+            <!-- Search history will be added here -->
+        </ul>
     </div>
-    <!-- 添加按钮 -->
-    <button class="add-button" onclick="addPageItem()">Add Item</button>
 </div>
 
 <script>
-function addPageItem() {
-    const page = document.querySelector('.page');
-    const newItem = document.createElement('div');
-    newItem.className = 'page-item';
-    // 这里可以动态设置文本内容，比如使用当前的项目数量
-    newItem.textContent = `Item ${page.querySelectorAll('.page-item').length + 1}`;
-    page.appendChild(newItem);
+    const searchBox = document.getElementById('searchBox');
+    const searchHistory = document.getElementById('searchHistory');
+    const historyList = document.getElementById('historyList');
 
-    // 可选：如果你希望滚动到最新添加的项目，可以使用以下代码
-    // 注意：这可能在某些情况下需要稍微的延迟来确保DOM已更新
-    // setTimeout(() => {
-    //     page.scrollTop = page.scrollHeight;
-    // }, 0);
-}
+    let searchTerms = [];
+
+    // Function to add search term to the history
+    function addSearchTerm(term) {
+        if (term && !searchTerms.includes(term)) {
+            searchTerms.push(term);
+            const listItem = document.createElement('li');
+            listItem.textContent = term;
+            historyList.appendChild(listItem);
+            searchHistory.style.display = 'block';
+        }
+    }
+
+    // Event: On focus, the search box expands
+    searchBox.addEventListener('focus', () => {
+        searchBox.classList.add('active');
+    });
+
+    // Event: On blur, the search box shrinks and adds the search term to the history
+    searchBox.addEventListener('blur', (event) => {
+        searchBox.classList.remove('active');
+        if (event.target.value) {
+            addSearchTerm(event.target.value);
+        }
+        searchBox.value = '';  // Clear the input after search
+        setTimeout(() => {
+            searchHistory.style.display = searchTerms.length > 0 ? 'block' : 'none';
+        }, 200);
+    });
 </script>
 
 </body>

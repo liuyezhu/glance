@@ -292,7 +292,7 @@ function setupSearchBoxes() {
         const searchInputClear = document.getElementById("search-input-clear");
         inputElement.addEventListener("input", (event) => {
             if (inputElement.value.length > 0) {
-                searchInputClear.style.display = 'block'
+                searchInputClear.style.display = 'flex'
                 return
             }
 
@@ -307,7 +307,6 @@ function setupSearchBoxes() {
         })
 
         inputElement.addEventListener("focus", () => {
-            console.log("ffff")
             const displayStyle = window.getComputedStyle(searchEngines).display;
             if (displayStyle !== "none") {
                 searchEngines.style.display = "none";
@@ -321,10 +320,7 @@ function setupSearchBoxes() {
             if (!renderSearchHistory()){
                 return
             }
-
             searchHistory.style.display = "grid";
-            widget.style.borderRadius = "20px 20px 0px 0px";
-            document.querySelector('.search-br').style.display = "block";
         });
 
         // 设置延迟事件、避免影响
@@ -340,8 +336,7 @@ function setupSearchBoxes() {
                 // searchEngines.style.display = "none";
 
                 searchHistory.style.display = "none";
-                document.querySelector('.search-br').style.display = "none";
-                widget.style.borderRadius = "20px";
+                // document.querySelector('.search-br').style.display = "none";
                 isSearchEnginesMenu = false;
                 document.removeEventListener("keydown", handleKeyDown);
                 document.removeEventListener("input", handleInput);
