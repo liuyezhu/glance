@@ -8,7 +8,7 @@
 <div class="search widget-content padding-inline-widget items-center"
      data-default-search-url="{{ .SearchEngine }}" data-new-tab="{{ .NewTab }}">
 
-    <div class="flex">
+    <div class="flex"  style="display: flex;align-items: flex-start">
         <div class="search-bangs" style="display: none">
             {{ range .Bangs }}
             <input type="hidden" data-shortcut="{{ .Shortcut }}" data-title="{{ .Title }}" data-url="{{ .URL }}"
@@ -18,19 +18,11 @@
 
         <div class="search-icon-container" id="search-icon">
             <img loading="eager" src="{{ .DefaultBangIcon }}"
-                 data-image-src="{{ .DefaultBangIcon }}">
-
-            <!--        <svg class="search-icon" stroke="var(&#45;&#45;color-text-subdue)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5">-->
-            <!--            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />-->
-            <!--        </svg>-->
+                 data-image-src="{{ .DefaultBangIcon }}" >
         </div>
 
-    <input class="search-input" id="search-input" type="text" placeholder=" Type here to search… " autocomplete="off"
-           {{
-           if .Autofocus }}
-           autofocus{{ end }}>
-    <div class="search-bang"></div>
 
+        <textarea class="search-input" id="search-input" rows="1" style="" autocomplete="off" {{ if .Autofocus }} autofocus{{ end }}></textarea>
         <div class="search-icon-container hidden" id="search-input-clear">
             <img loading="eager" src="{{.ClearIcon}}">
         </div>
@@ -38,15 +30,14 @@
         <div class="search-icon-container" id="search-action">
             <img loading="eager" src="{{.SearchIcon}}">
         </div>
-        <!--    <kbd class="hide-on-mobile" title="Press [S] to focus the search input">S</kbd>-->
     </div>
 
 
     <!--    <div class="search-br animate__animated animate__bounceInUp" ></div>-->
 
     <div class="search-history" id="search-history">
-        <div class="search-history-item"><span>开发中sdsd，sd 开发中</span></div>
-        <div class="search-history-item"><span>开发中，开发中</span></div>
+        <div class="search-history-item"><span>demo</span></div>
+        <div class="search-history-item"><span>demo</span></div>
     </div>
 
     <div class="search-engines animate__animated animate__bounceInUp" id="search-engines">

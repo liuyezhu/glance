@@ -87,6 +87,7 @@ function updateRelativeTimeForElements(elements) {
 
 function setupSearchBoxes() {
     // 限制搜索记录的长度
+
     const searchWidgets = document.getElementsByClassName("search");
     // let container = document.querySelector('.search-engines');
     // function addSearchEngineItem() {
@@ -125,6 +126,9 @@ function setupSearchBoxes() {
     const searchIcon = document.getElementById('search-icon');
     const searchAction = document.getElementById('search-action');
     const searchInput = document.getElementById('search-input');
+
+    console.log(searchInput.value,searchInput.value.length,"start")
+
     const searchHistory = document.getElementById('search-history');
     // 获取图片元素
     const updateIconImg = document.querySelector('#search-icon img');
@@ -149,8 +153,6 @@ function setupSearchBoxes() {
     let isSearchEnginesMenu = false; // 用于跟踪菜单是否可见
     // 点击G图标显示菜单
     searchIcon.addEventListener('click', () => {
-        console.log(" searchIcon click", isSearchEnginesMenu)
-
         if (isSearchEnginesMenu) {
             isSearchEnginesMenu = false;
             deleteSearchEngineItem()
@@ -268,29 +270,30 @@ function setupSearchBoxes() {
             }
         };
 
-        const changeCurrentBang = (bang) => {
-            currentBang = bang;
-            bangElement.textContent = bang != null ? bang.dataset.title : "";
-        }
+        // const changeCurrentBang = (bang) => {
+        //     console.log(bang)
+        //     currentBang = bang;
+        //     bangElement.textContent = bang != null ? bang.dataset.title : "";
+        // }
+        //
+        // const handleInput = (event) => {
+        //     const value = event.target.value.trim();
+        //     if (value in bangsMap) {
+        //         changeCurrentBang(bangsMap[value]);
+        //         return;
+        //     }
+        //
+        //     const words = value.split(" ");
+        //     if (words.length >= 2 && words[0] in bangsMap) {
+        //         changeCurrentBang(bangsMap[words[0]]);
+        //         return;
+        //     }
+        //
+        //     changeCurrentBang(null);
+        // };
 
-        const handleInput = (event) => {
-            const value = event.target.value.trim();
-            if (value in bangsMap) {
-                changeCurrentBang(bangsMap[value]);
-                return;
-            }
-
-            const words = value.split(" ");
-            if (words.length >= 2 && words[0] in bangsMap) {
-                changeCurrentBang(bangsMap[words[0]]);
-                return;
-            }
-
-            changeCurrentBang(null);
-        };
-
-        const searchInputClear = document.getElementById("search-input-clear");
         inputElement.addEventListener("input", (event) => {
+            changeTextareaHeight(inputElement)
             if (inputElement.value.length > 0) {
                 searchInputClear.style.display = 'flex'
                 return
@@ -300,20 +303,23 @@ function setupSearchBoxes() {
         });
 
 
+
+        const searchInputClear = document.getElementById("search-input-clear");
         searchInputClear.addEventListener("click", function () {
+            changeTextareaHeight(inputElement)
             inputElement.value = '';
             searchInputClear.style.display = 'none'
             inputElement.focus()
         })
 
-        inputElement.addEventListener("focus", () => {
+        inputElement.addEventListener("focus", (e) => {
             const displayStyle = window.getComputedStyle(searchEngines).display;
             if (displayStyle !== "none") {
                 searchEngines.style.display = "none";
             }
 
             document.addEventListener("keydown", handleKeyDown);
-            document.addEventListener("input", handleInput);
+            // searchInput.addEventListener("input", handleInput);
         });
 
         inputElement.addEventListener('click', function (event) {
@@ -325,7 +331,6 @@ function setupSearchBoxes() {
 
         // 设置延迟事件、避免影响
         inputElement.addEventListener("blur", (e) => {
-            console.log("blur")
 
             // if (document.activeElement.classList.contains('search-history-item')) {
             //     return;  // 如果点击的是搜索历史项，不执行隐藏操作
@@ -339,7 +344,7 @@ function setupSearchBoxes() {
                 // document.querySelector('.search-br').style.display = "none";
                 isSearchEnginesMenu = false;
                 document.removeEventListener("keydown", handleKeyDown);
-                document.removeEventListener("input", handleInput);
+                // document.removeEventListener("input", handleInput);
             }, 200)
 
         });
@@ -367,10 +372,13 @@ function setupSearchBoxes() {
         actionSearch(searchInput.value.trim(), true)
     });
 
+    function changeTextareaHeight(event) {
+        event.style.height = 'auto'; // Reset height
+        event.style.height = event.scrollHeight + 'px'; // 根据内容调整高度
+    }
+
     function actionSearch(query = "", newTab = true, url = "") {
         if (url === "") {
-            console.log(defaultSearchUrl)
-
             let searchUrlTemplate = localStorage.getItem("selectedSearchEngine")
             searchUrlTemplate = searchUrlTemplate || defaultSearchUrl || "https://www.baidu.com/s?wd={QUERY}"
             url = searchUrlTemplate.replace("!QUERY!", encodeURIComponent(query))
