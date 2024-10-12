@@ -16,10 +16,6 @@
     gap: 1rem;
 }
 
-.search:focus-within {
-}
-
-
 
 /*.search:focus {*/
 /*    border: 2px solid #007BFF; !* 聚焦时边框颜色变为蓝色 *!*/
@@ -76,8 +72,10 @@
     gap: 10px; /* 子项之间的间隔 */
     /*padding: 10px; !* 容器内边距 *!*/
     flex-wrap: wrap; /** 允许子项换行 *!*/
+    /*--as: var(calc(var(--bga)+1%));*/
     /*flex-direction:row;*/
-    border-top: 2px solid var(--color-separator);
+    /*border-top: 2px solid var(--color-separator);*/
+    border-top: var(--widget-content-border-br);
     /*border: 1px solid; !* 可选：给项添加边框以更清晰地看到它们 *!*/
     /*border-radius: 20px;*/
     overflow: auto; /* 或者使用 overflow: hidden; 如果你不希望出现滚动条 */
@@ -118,7 +116,7 @@
 
 .search-history {
     margin-top: var(--list-half-gap);
-    border-top: 2px solid var(--color-separator);
+    border-top: var(--widget-content-border-br);
     padding-top: 10px;
     /*background: var(--color-widget-background);*/
     display: none;
@@ -158,7 +156,7 @@
 
 
 .search-history-item:hover {
-background: hsla(62, 84%, calc(30% + 1%), 0.4)
+    background: hsla(62, 84%, calc(30% + 1%), 0.4)
     /*background: rgba(42, 42, 42, 0.5); !* 浅灰色 *!*/
 }
 
@@ -167,7 +165,7 @@ background: hsla(62, 84%, calc(30% + 1%), 0.4)
     font-family: v-sans, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     font-size: 18px;
     border: 0;
-    background-color:transparent ;
+    background-color: transparent;
     width: 100%;
     padding: 10px;
     /*height: 6rem;*/
@@ -184,7 +182,7 @@ background: hsla(62, 84%, calc(30% + 1%), 0.4)
     /*overflow: hidden;*/
 }
 
-.search-input textarea{
+.search-input textarea {
     /*resize: none; !* 禁用手动调整大小 *!*/
     padding: 10px;
 

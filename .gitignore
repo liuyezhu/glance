@@ -1,5 +1,7 @@
 /assets
-/build
+build/
 /playground
 glance*.yml
-/html
+html/
+tmp/
+

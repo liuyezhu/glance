@@ -237,6 +237,10 @@ function setupSearchBoxes() {
             }
 
             if (event.key === "Enter") {
+                if (!event.shiftKey) {
+                    event.preventDefault(); // 阻止默认的换行行为
+                }
+
                 const input = inputElement.value.trim();
                 let query;
                 let searchUrlTemplate;
@@ -313,6 +317,7 @@ function setupSearchBoxes() {
         })
 
         inputElement.addEventListener("focus", (e) => {
+            changeTextareaHeight(inputElement)
             const displayStyle = window.getComputedStyle(searchEngines).display;
             if (displayStyle !== "none") {
                 searchEngines.style.display = "none";
@@ -438,7 +443,7 @@ function setupSearchBoxes() {
                 searchInput.value = record.term
                 setTimeout(() => {
                     actionSearch(record.term, true, record.url)
-                }, 800)
+                }, 0)
             });
 
             newItem.appendChild(span);

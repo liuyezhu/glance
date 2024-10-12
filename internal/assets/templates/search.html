@@ -40,18 +40,8 @@
         <div class="search-history-item"><span>demo</span></div>
     </div>
 
-    <div class="search-engines animate__animated animate__bounceInUp" id="search-engines">
+    <div class="search-engines" id="search-engines">
         {{ range.Bangs }}
-        <div class="search-engine-item" data-title="{{.Title}}" data-shortcut="{{ .Shortcut }}" data-url="{{ .URL }}"
-             data-icon="{{.Icon}}">
-            <img loading="eager" src="{{ .Icon }}" alt="{{.Title}}" class="search-engine-icon">
-        </div>
-
-        <div class="search-engine-item" data-title="{{.Title}}" data-shortcut="{{ .Shortcut }}" data-url="{{ .URL }}"
-             data-icon="{{.Icon}}">
-            <img loading="eager" src="{{ .Icon }}" alt="{{.Title}}" class="search-engine-icon">
-        </div>
-
         <div class="search-engine-item" data-title="{{.Title}}" data-shortcut="{{ .Shortcut }}" data-url="{{ .URL }}"
              data-icon="{{.Icon}}">
             <img loading="eager" src="{{ .Icon }}" alt="{{.Title}}" class="search-engine-icon">
